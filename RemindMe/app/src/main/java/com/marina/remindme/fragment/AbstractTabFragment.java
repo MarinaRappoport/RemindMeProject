@@ -10,7 +10,7 @@ import android.view.View;
 public abstract class AbstractTabFragment extends Fragment {
     protected View view;
 
-    private Context context;
+    protected Context context;
     private String title;
 
 
