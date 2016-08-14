@@ -23,10 +23,14 @@ import java.util.List;
 public class HistoryFragment extends AbstractTabFragment {
     private static final int LAYOUT = R.layout.fragment_history;
 
-    public static HistoryFragment getInstance(Context context){
+    private List<RemindDTO> data;
+    private RemindListAdapter adapter;
+
+    public static HistoryFragment getInstance(Context context, List<RemindDTO> data){
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        fragment.setData(data);
         fragment.setContext(context);
         fragment.setTitle(context.getString(R.string.tab_item_history));
 
@@ -40,21 +44,31 @@ public class HistoryFragment extends AbstractTabFragment {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new RemindListAdapter(createMockData()));
+        adapter = new RemindListAdapter(data);
+        recyclerView.setAdapter(adapter);
 
 
         return view;
     }
 
-    private List<RemindDTO> createMockData() {
-        List<RemindDTO> data = new ArrayList<>();
-        data.add(new RemindDTO("Item1"));
-        data.add(new RemindDTO("Item2"));
-        data.add(new RemindDTO("Item3"));
-        data.add(new RemindDTO("Item4"));
-        data.add(new RemindDTO("Item5"));
-        data.add(new RemindDTO("Item6"));
+//    private List<RemindDTO> createMockData() {
+//        List<RemindDTO> data = new ArrayList<>();
+//        data.add(new RemindDTO("Item1"));
+//        data.add(new RemindDTO("Item2"));
+//        data.add(new RemindDTO("Item3"));
+//        data.add(new RemindDTO("Item4"));
+//        data.add(new RemindDTO("Item5"));
+//        data.add(new RemindDTO("Item6"));
+//
+//        return data;
+//    }
 
-        return data;
+    public void setData(List<RemindDTO> data) {
+        this.data = data;
+    }
+
+    public void refreshData(List<RemindDTO> data){
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
     }
 }
